@@ -104,3 +104,62 @@ Backtracking:
         else 
             i --; j --;
 ```
+
+
+<h3> <span style="color:yellow"> substring problem template  </span> </h3>
+
+``` c++
+map<int, int> p(length, 0);
+int begin, end, counter = 0;
+for () // initialize map p here
+while (end < length) {
+    if (p[s[end++]]-- ? ) counter ? ;
+    while (!counter) {
+        //increase begin to make it invalid 
+        if (p[s[begin++]]++ ?) counter ?
+    }
+}
+return ?;
+```
+
+<h3> <span style="color:yellow"> Three-Sum  </span> </h3>
+
+```c++
+FindSortedTwoSum (int *nums, int target, int pos, int * res) {
+    int l = 0;
+    int r = nums.size() - 1;
+    while (l <= r) {
+        int ss = nums[l] + nums[r];
+        if (ss == target) {
+            res += l, r;
+        }
+        else if (ss < target) {
+            l ++;
+        }
+        else r --;
+        if (l == i) l++;
+        if (r == i) r--;
+    }
+}
+
+ Three-sum (int * nums, int target) {
+     sort(nums);
+     for (int i = 0; i < nums.size(); ++i) {
+         FindSortedTwoSum (nums, target - nums[i], i, res);
+     }
+ }
+
+```
+
+
+<h3> <span style="color:yellow"> Four-Sum  </span> </h3>
+
+```c++
+    FourSum(int* nums, int target)
+    int *pairs // all pairs availabe in nums size n(n-1)/2 = nP2
+    sort(pairs) // O(n^2logn)
+    for (int k : pairs) { // takes O(logn)
+        binary_search(target - k)
+    }
+```
+
