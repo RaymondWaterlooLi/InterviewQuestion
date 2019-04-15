@@ -8,32 +8,24 @@
 
 using namespace std;
 
-//bool isMatch(string s, string p) {
-//    if (p.empty()) return s.empty();
-//    if (s.empty()) return p.empty() || (p.at(0) == '*' && isMatch(s, p.substr(1)));
-//    char a = s.at(0);
-//    char b = p.at(0);
-//    if (b == '.' || a == b) return isMatch(s.substr(1), p.substr(1)) || (p.at(1) == '*' && isMatch(s.substr(1), p.substr(2)));
-//    else if (p.at(1) == '*') return isMatch(s.substr(1), p.substr(2)) || isMatch(s.substr(1), p);
-//    return false;
-//}
-
-bool inline match(char p, char s) {
-    return (p == '.' || p == s);
-}
-
 bool isMatch(string s, string p) {
-    int m = s.size(), n = p.size();
-    vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
-    dp[0][0] = true;
-    for (int i = 0; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (p[j - 1] == '*') {
-                dp[i][j] = dp[i][j - 2] || (i && dp[i - 1][j] && (s[i - 1] == p[j - 2] || p[j - 2] == '.'));
-            } else {
-                dp[i][j] = i && dp[i - 1][j - 1] && (s[i - 1] == p[j - 1] || p[j - 1] == '.');
+    vector<vector<int>> d (s.length() + 1, vector<int>(p.length() + 1, 0));
+    d[0][0] = 1;
+    //empty string case (a*a*a*... could represent empty case)
+    for (int i = 0; i < p.length(); ++i) {
+        if (p[i] == '*' && d[0][i-1]) d[0][i+1] = 1;
+    }
+    for (int i = 0; i < s.length(); ++i) {
+        for (int j = 0; j < p.length(); ++j) {
+            if (p[j] == '.' || p[j] == s[i]) d[i+1][j+1]  = d[i][j];
+            else if (p[j] == '*') {
+                if (p[j-1] != s[i] && p[j-1] != '.') {
+                    d[i+1][j+1] = d[i+1][j-1];
+                }
+                else d[i+1][j+1] = d[i+1][j-1] || d[i][j+1] || d[i+1][j];
             }
         }
     }
-    return dp[m][n];
+
+    return d[s.length()][p.length()];
 }
