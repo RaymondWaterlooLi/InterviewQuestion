@@ -163,3 +163,56 @@ FindSortedTwoSum (int *nums, int target, int pos, int * res) {
     }
 ```
 
+<h3> <span style="color:yellow"> Binary Search </span> </h3>
+
+```c++
+    int l = 0; int r = size;
+    int target; // there exists a target
+    while (l <= r) {
+        int mid = l + (r - l)/2; 
+        if (nums[mid] == target) return mid;
+        else if (nums[mid] > target) {
+            l = mid + 1;
+        } else {
+            r = mid - 1;
+        }
+    }
+    if (nums[l] == target) return l;
+    else if (nums[r] == target) return r;
+    return -1; //not found
+```
+
+<h3> <span style="color:yellow"> Trie Implementation    </span> </h3>
+
+```c++
+//suppose all the inputs are words consists of chars
+    struct node {
+        char val;
+        vector<node*> children;
+        bool isFinish;
+        node (char c) : val(c), children(26, null), isFinish(false){}
+    };
+
+    void insert(node* root, string word) {
+        for (char a : word) {
+            int pos = a - 'a';
+            node* p = root->children[pos];
+            p = p ? p : new node(a);
+            root = p;
+        }
+        root->isFinish = true;
+    }
+
+    bool search(string word, node* root) {
+        for (char a : word) {
+            int pos = a - 'a';
+            if (!root->children[pos]) return false;
+            root = root->children[pos];
+        }
+        return root->isFinish;
+    }
+```
+
+
+
+
