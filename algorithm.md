@@ -213,6 +213,30 @@ FindSortedTwoSum (int *nums, int target, int pos, int * res) {
     }
 ```
 
+<h3> <span style="color:yellow"> Linked list Operation </span> </h3>
+
+```c++
+
+node* copy (node* t) {
+    node* header = new node ();
+    node* prev = header;
+    while (t) {
+        prev = new node(t->val, t->next);
+        prev = prev -> next;
+        t = t -> next;
+    }
+    return header;
+}
+
+void clear (node* t) {
+    while (t) {
+        node* replacement = t->next;
+        destroy(t);
+        t = replacement;
+    }
+}
+```
+
 
 
 
