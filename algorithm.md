@@ -217,13 +217,14 @@ FindSortedTwoSum (int *nums, int target, int pos, int * res) {
 
 ```c++
 
-node* copy (node* t) {
-    node* header = new node ();
-    node* prev = header;
-    while (t) {
-        prev = new node(t->val, t->next);
-        prev = prev -> next;
+node* deepCopy (node* t) {
+    if (!t) return NULL;
+    node* prev = new node(t->val, t->next);
+    node* header = prev;
+    while (t->next) {
         t = t -> next;
+        prev->next = new node(t->val, t->next);
+        prev = prev -> next;
     }
     return header;
 }
