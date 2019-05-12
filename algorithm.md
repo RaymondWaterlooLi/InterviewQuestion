@@ -217,6 +217,12 @@ FindSortedTwoSum (int *nums, int target, int pos, int * res) {
 
 ```c++
 
+struct node {
+    int val;
+    node* next;
+    node(val): val(val), next(NULL) {}
+};
+
 node* deepCopy (node* t) {
     if (!t) return NULL;
     node* prev = new node(t->val, t->next);
@@ -236,7 +242,45 @@ void clear (node* t) {
         t = replacement;
     }
 }
+
+node* reverse(node* head) {
+    node* prev = NULL;
+    node* t = head;
+    while (t) {
+        node* remain = t ->next;
+        t ->next = prev; 
+        prev = t;
+        t = remain;
+    }
+    return prev;
+}
+
+//fast runner and slow runner
+bool checkCycle(node* t) {
+    node* fast = t;
+    node* slow = t;
+    while (fast && slow) {
+        fast = (fast -> next)  ? fast -> next -> next : NULL;
+        slow = slow -> next;
+        if (fast == slow) return true;
+    }
+    return false;
+}
 ```
+
+<h3> <span style="color:yellow"> Panlindrome checker </span> </h3>
+
+```c++
+    bool isPalindrome(string a) {
+        int i = 0; int j = a.length() - 1;
+        while (i <= j) {
+            if (a[i++] != a[j--])  return false;
+        }
+        return true;
+    }
+```
+
+
 
 
 
