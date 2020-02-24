@@ -1,0 +1,210 @@
+What rights CCPA afforde consumers?
+> The right to know whetehr their personal information is being collected about them
+> The right to request the specfic categories of information a business collects upon verfiable request
+> The right to know what personal information is being collected about them
+> The right to say "no" to the sale of the personal information
+> The right to equal service and price, even if they exercise their privacy rights
+
+Step-by-Step Compliance
+> Step1: Update privacy notices and policies
+> Step2: Update Data inventories, business processes, and data strategies
+> Step3: Implement protocols to ensure consumer rights
+ - Right to notice
+ - Right of access/right to request
+ - right to know
+ - right to delete
+ - right to opt out
+ - right to notification of financial incentive.
+ - right not to be discriminated against 
+> Step4: Make security updates
+> Step5: Update third-party processor agreements
+> Step6: Training
+
+
+
+Buffer overflow:
+```java
+1. get addr: addr = getsp() - offset
+2. buff = malloc(bsize);
+3. ptr = buff 
+4. addr_ptr = ptr
+5. for (int i = 0; i < bsize; i += 4) {
+    *(addr_ptr ++) = addr
+}
+6. for (int i = 0; i < bsize; ++i) {
+    buff[i] = NOP;
+}
+7. ptr = buff + (bsize/2 - strlen(shellcode)/2);
+8. for (int i = 0; i < strlen(shellcode); ++i) {
+    *(ptr++) = shellcode[i];
+}
+9. buff[bsize - 1] = '\0';
+```
+
+Integer overflow:
+1. Widthness overflows
+```c
+int l;
+short s;
+char c;
+l = 0xdeadbeef;
+s = l;
+c = l;
+```
+
+``` c
+short s; // 65536
+ s = i; // i is input
+ if (s >= 80) { 
+     // error 
+ }
+ memcpy(buf, agrv[2], i); // 
+ ```
+
+ 2. Arithmetic overflows
+ When result of the addition exceeds the range of the variable, the lowest 32 bits are used as the result. Multiplication as well.
+
+ Exploit is when calculation is made about how larges a buffer must be allocated.
+ ```c
+ myarray = malloc(len * sizeof(int));
+ for (i = 0; i < len; ++i) {
+     myarray[i] = array[i];
+ }
+ Lacking checking of the len para, can be made to overflow by supplying a high enoigh value for len, so we can force the buffer to be any length we choose, we could write past the end of the myarray buffer, results in a heap overflow.
+ ```
+
+ Signedness bugs
+ ```c
+ It occurs when an unsigned variable is interpreted as as signed, or when a signed variable is inerpreted as unsigned.
+ - signed int in comparisons
+ - signed int in arithmetic
+ - unsigned int being compared to signed ones
+ - bounds check apply to signed ones
+ ```
+
+`Incomplete mediation`:
+>Occurs when the application accepts incorrect data from the user. 
+SQL injection is a form of incomplete mediation. 
+
+>The web application needs to make sure that the user has entered meaningful request
+> 
+
+Cross-Site Scripting (XSS) attack:
+> User browser interprets the data as code from malicious users
+> Stored XSS attacks: injected scripts is permanently stored on the target servers
+> Data is retrieved and passed to the user upon query
+> 
+
+`TOCTTOU`: Time to check and time to use 
+1. User requests the system to perform an action
+2. The system verifires the user is allowed to perform the action
+3. The system performs the action
+
+The state of the system changed btw the check for permission and execution of the operation (`symlink('etc/shadow', `etc/temp`)`)
+
+Defense: Keep a private copy of the request itself
+- use locks to ensure the obj is not changed during the race
+
+
+
+
+
+ Module 3:
+protected objs: memory + data + cpu + programs + I/O + networks + os
+
+`Bell-La Padula` confidentially model:
+> Information can only flow up 
+> ss-property ("no read up"): s should read access to o only if C(s) >= C(o)
+> *-property: ("no write down"): s should have write access to o only if C(o) >= C(s)
+
+`Biba Integrity model`:
+- Write access: s can modfity o if I(s) >= I(o) 
+- Read access: s can read o only if I(o) >= I(s)
+
+`Low Watermark Property`:
+- If subject s reads obj o, then I(s) = glb(I(s), I(o)), glb: greatest lower bound
+- If subject s modifies obj o, then I(o) = glb(I(s), I(o))
+
+`Chinese Wall security policy`: 
+- ss-prop: Subject s can access obj o iff each obj previously accessed by s either belongs to the same company as o or belongs to different kind of company than o does
+- *-prop: for a write access to o by s, we also need to ensure that all objs readable by s either belong to the same company as o or have sanitized. 
+
+RunTime Encryption:
+> The only time the adta gets decrypted is when it is being processed by the CPU inside the secure enclave
+> Protects from all threats
+> Enclave OS uses encryption and hardware-enforced completely immune to a wide-range of threats 
+> This is done by establishing a root of trust in the cpu
+> Need language runtim (eg. JVM)
+> EnclaveOS encrypt all data which may get written out to the memory (DRAM), to system storage and to the network
+
+To memory (DRAM):
+- A memory encryption key is randomly generated by the precessor on every boot and is used by the processor to encrypt and decrypt Intel SGX enclave memory. 
+
+To system storage
+- A data seal key is used for this, a base seal key is fused into each processor during manufaturing of SGX. 
+
+Data seal key = base data seal key + KDF
+KDF = key derivation function
+
+`Same-origin policy`: 
+Agreement among browser manufacturs, on a standard way to limit the functionality of scripting code running in user's web browser 
+
+origin: protcol + TCP ports + domain name 
+Because of cookies, prevent web apps from reading resources from personalized potentially sensitive and private resources.
+
+1. <script> Element
+2. JSONP
+3. iframes, <frameset>, <iframe>
+4. Adobe flash player cross-domain policy file
+5. Microsoft silverlight
+6. xmlhttprequest (AJAX), (CORS) feature
+7. XDomainRequest (much safer)
+8. JS `eval` 
+
+Considering splitting your site into separate subdomains for authenticated and anonymous. Tigter control.
+
+Lowering page domain. 
+
+
+Access control:
+Three goals:
+1. check every access
+2. `Enforce least privilege`: grant program access only to smallest number of objs required to peform a task
+3. `Verify acceptable use:` limit types of activiy that can perform on an object
+
+
+Capabilities:
+1. An unforeable token that giaves its owner some access righgt to an obj
+2. Might be transferable
+3. 
+
+**Password: **
+
+Stroing password fingreprints
+1. Store only a digital fingerprint of the password
+2. Use user-specfic salt
+
+Defending guessing attacks:
+1. Do not use a standard cryptographic hash (lisk SHA-1, SHA-512).
+2. Use iterated hash functkon that is expensive (scrypt, bcrypt)
+3. Slows down guessing attack significantly
+
+Use a MAC, mixes in a secret key to compute the password fingerprint
+if the fingerprint leaks, attacks arent useful anymore
+
+Types of Malware:
+1. Trojans: malicious code hidden in seemingly innocent program that you download
+2. Logic bombs: hidden in programs already in the machine
+
+Virus would infect other files, spread btw files, or btw computers
+
+`worms`: self-contained piece of code that can replicate with little or no user involvement
+
+`Trojan horse`: gain control by getting user to run code of the attacker's choice. 
+
+`Salami` attack: small pieces of data form something meanigful
+
+`privilege escalation`: raises the privilege of the attackers
+
+`phishing`: fake web
+
